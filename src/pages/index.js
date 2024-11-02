@@ -10,7 +10,7 @@ export default function Home() {
     display: 'flex',
     minHeight: '100vh',
     flexDirection: 'column',
-    alignItems: 'center', 
+    alignItems: 'center',
   };
 
   const titleStyle = {
@@ -30,9 +30,15 @@ export default function Home() {
     color: '#FFFFFF',
     alignItems: 'center',
     justifyContent: 'center',
+
   };
 
-
+  const messageboxgrid = {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(4, 1fr)',
+    gap: '30px', 
+    padding: '70px',
+  };
 
   return (
     <main style={mainstyle}>
@@ -46,6 +52,12 @@ export default function Home() {
 
       <div style={buttonStyle}>
         <h2 className="text-[36px] font-['Hakgyoansim']">편지 쓰러 가기</h2>
+      </div>
+
+      <div style={messageboxgrid}>
+        {Array.from({ length: 12 }, (_, index) => (
+          <MessageBox key={index} />
+        ))}
       </div>
 
     </main>

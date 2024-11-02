@@ -3,6 +3,7 @@ import Image from "next/image"
 
 const Header = () => {
   const headerStyle = {
+    height: '106px',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -23,7 +24,6 @@ const Header = () => {
     width: '368px',
     height: '69px',
     borderRadius: '9px',
-    padding: '0px',
     marginRight: '119px',
   };
 
