@@ -1,62 +1,45 @@
-// 아래의 import문으로 next/image의 Image 컴포넌트를 사용할 수 있습니다.
 import Image from "next/image"
-
-// 아래의 import문으로 MessageBox 컴포넌트를 사용할 수 있습니다.
+import { useEffect, useState } from "react";
+import axios from "axios";
 import MessageBox from "@/components/MessageBox";
+import { useRouter } from "next/router";
 
 export default function Home() {
-  const mainstyle = {
-    backgroundColor: '#FFDDE3',
-    display: 'flex',
-    minHeight: '100vh',
-    flexDirection: 'column',
-    alignItems: 'center',
+  const router = useRouter();
+  const [messages, setMessages] = useState([]);
+  const writeButtonClick = () => {
+    router.push('/SendMessage');
   };
 
-  const titleStyle = {
-    padding: '147px 0px 0px 0px',
-  };
-
-  const sentenceStyle = {
-    padding: '58px',
-  };
-
-  const buttonStyle = {
-    display: 'flex',
-    width: '678px',
-    height: '93px',
-    backgroundColor: '#B61111',
-    borderRadius: '12px',
-    color: '#FFFFFF',
-    alignItems: 'center',
-    justifyContent: 'center',
-
-  };
-
-  const messageboxgrid = {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(4, 1fr)',
-    gap: '30px', 
-    padding: '70px',
-  };
-
+  useEffect(() => {
+    const fetchMessages = async () => {
+      const res = await axios.get("http://ec2-3-38-49-253.ap-northeast-2.compute.amazonaws.com:8080/messages?name=김민수");
+      setMessages(res.data);
+    };
+    fetchMessages();
+  }, []);
   return (
-    <main style={mainstyle}>
-      <div style={titleStyle}>
+    <main className="bg-[#FFDDE3] flex flex-col items-center min-h-screen">
+      <div className="pt-[147px]">
         <h1 className="text-[120px] font-['Changwon']">연말 편지 우체통</h1>
       </div>
 
-      <div style={sentenceStyle}>
-        <h2 className="text-[36px] font-['Hakgyoansim']">💌  김민수님의 연말 편지 우체통으로 00건의 편지가 도착했어요!</h2>
+      <div className="pt-[58px]">
+        <h2 className="text-[36px] font-['Hakyo']">💌  김민수님의 연말 편지 우체통으로 00건의 편지가 도착했어요!</h2>
       </div>
 
-      <div style={buttonStyle}>
-        <h2 className="text-[36px] font-['Hakgyoansim']">편지 쓰러 가기</h2>
+      <div className="flex w-[678px] h-[93px] bg-[#B61111] rounded-[12px] text-white items-center justify-center mt-[58px]">
+        <button
+          onClick={writeButtonClick}
+          className="text-[36px] font-['Hakyo']">편지 쓰러 가기</button>
       </div>
 
-      <div style={messageboxgrid}>
-        {Array.from({ length: 12 }, (_, index) => (
+      <div className="grid grid-cols-4 gap-[30px] pt-[70px]">
+        {/* {Array.from({ length: 12 }, (_, index) => (
           <MessageBox key={index} />
+        ))} */}
+        {messages.map((message, index) => (
+          <MessageBox key={index} message={message} />
         ))}
       </div>
 

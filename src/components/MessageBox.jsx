@@ -1,26 +1,24 @@
-// MessageBox component
+import { useState } from "react";
+import axios from "axios";
 
-const MessageBox = () => {
-  const boxstyle = {
-    display: 'flex',
-    backgroundColor: '#FFFFFF',
-    width: '407px',
-    height: '310px',
-    borderWidth: '9px',
-    borderStyle: 'solid',
-    borderColor: '#CB0000',
-    borderRadius: '37px',
+export default function MessageBox() {
+  const [message, setMessage] = useState("");
+  const [toName, setToName] = useState("");
+  const [fromName, setFromName] = useState("");
 
-    boxShadow: '0 4px 4px #00000040',
-    padding: '100px 0px 0px 43px',
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.get("http://ec2-3-38-49-253.ap-northeast-2.compute.amazonaws.com:8080/messages?name=김민수", {
+        message,
+        toName,
+        fromName,
+      });
+      console.log("편지 전송 성공:", res.data);
+    } catch (error) {
+      console.error("편지 전송 실패:", error);
+    }
+  };
 
-
-
-
-  return <div style={boxstyle}>
-    <h1 className="text-[32px]">From. dd </h1>
-  </div>;
-};
-
-export default MessageBox;
+  
+}
