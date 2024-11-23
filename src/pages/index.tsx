@@ -11,13 +11,29 @@ export default function Home() {
     router.push('/SendMessage');
   };
 
+  // useEffect(() => {
+  //   const fetchMessages = async () => {
+  //     const res = await axios.get("http://ec2-3-38-49-253.ap-northeast-2.compute.amazonaws.com:8080/messages?name=김민수");
+  //     setMessages(res.data);
+  //   };
+  //   fetchMessages();
+  // }, []);
+
+
+
   useEffect(() => {
     const fetchMessages = async () => {
-      const res = await axios.get("http://ec2-3-38-49-253.ap-northeast-2.compute.amazonaws.com:8080/messages?name=김민수");
-      setMessages(res.data);
+      try {
+        const res = await axios.get("http://ec2-3-38-49-253.ap-northeast-2.compute.amazonaws.com:8080/messages?name=김민수");
+        setMessages(res.data);
+      } catch (error) {
+        console.error("Error fetching messages:", error);
+      }
     };
+    console.log("받아와짐");
     fetchMessages();
   }, []);
+
   return (
     <main className="bg-[#FFDDE3] flex flex-col items-center min-h-screen">
       <div className="pt-[147px]">
@@ -35,11 +51,11 @@ export default function Home() {
       </div>
 
       <div className="grid grid-cols-4 gap-[30px] pt-[70px]">
-        {/* {Array.from({ length: 12 }, (_, index) => (
-          <MessageBox key={index} />
-        ))} */}
         {messages.map((message, index) => (
-          <MessageBox key={index} message={message} />
+          <div key={index}>
+            <MessageBox message={message} />
+          </div>
+
         ))}
       </div>
 

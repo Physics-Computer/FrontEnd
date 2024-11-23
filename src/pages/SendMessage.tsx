@@ -1,10 +1,12 @@
 import { useRouter } from "next/router";
 import { useState } from 'react'
+import axios from "axios";
+import React from "react"
 
 export default function SendMessagepage() {
-  const [message, setMessage] = useState("");
-  const [fromName, setFromName] = useState("");
-  const [toName, setToName] = useState("");
+  const [message, setMessage] = useState<string>("");
+  const [fromName, setFromName] = useState<string>("");
+  const [toName, setToName] = useState<string>("");
   const router = useRouter();
 
   const homeButtonClick = () => {
@@ -57,7 +59,6 @@ export default function SendMessagepage() {
           value={fromName}
           onChange={(e) => setFromName(e.target.value)}
         />
-        {/* 편지 내용 */}
         <label htmlFor="content" className="text-[30px] font-semibold mb-[10px]">
           편지 내용:
         </label>
