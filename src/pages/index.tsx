@@ -2,11 +2,14 @@ import Image from "next/image"
 import { useEffect, useState } from "react";
 import axios from "axios";
 import MessageBox from "@/components/MessageBox";
+import instance from "@/api/instance";
 import { useRouter } from "next/router";
 
 export default function Home() {
   const router = useRouter();
   const [messages, setMessages] = useState([]);
+  const [userName, setUserName] = useState("");
+
   const writeButtonClick = () => {
     router.push('/SendMessage');
   };
@@ -14,8 +17,13 @@ export default function Home() {
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const res = await axios.get("http://ec2-3-38-49-253.ap-northeast-2.compute.amazonaws.com:8080/messages?name=김민수");
+        const res = await instance.get('/messages?name=김민수');
         setMessages(res.data);
+
+
+        if (res.data.length > 0) {
+          setUserName(res.data[0].toName);
+        }
       } catch (error) {
         console.error("Error fetching messages:", error);
       }
@@ -31,7 +39,7 @@ export default function Home() {
       </div>
 
       <div className="pt-[25px]">
-        <h2 className="text-[20px] font-['Hakyo']">💌  김민수님의 연말 편지 우체통으로 {messages.length}건의 편지가 도착했어요!</h2>
+        <h2 className="text-[20px] font-['Hakyo']">💌 {userName}님의 연말 편지 우체통으로 {messages.length}건의 편지가 도착했어요!</h2>
       </div>
 
       <div className="flex w-[200px] h-[30px] bg-[#666666] rounded-[12px] text-white items-center justify-center mt-[20px]">
@@ -42,11 +50,11 @@ export default function Home() {
 
       <div className="grid grid-cols-4 gap-[5px] pt-[30px]">
         {messages.map((message, index) => (
-            <MessageBox 
+          <MessageBox
             key={index}
             user={message.fromName}
             content={message.message}
-            />
+          />
         ))}
       </div>
 
