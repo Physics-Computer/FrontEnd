@@ -20,7 +20,6 @@ export default function Home() {
         const res = await instance.get('/messages?name=김민수');
         setMessages(res.data);
 
-
         if (res.data.length > 0) {
           setUserName(res.data[0].toName);
         }
@@ -36,6 +35,7 @@ export default function Home() {
     <main className="bg-[#f1f1f1] flex flex-col items-center min-h-screen">
       <div className="pt-[50px]">
         <h1 className="text-[50px] font-['Changwon']">연말 편지 우체통</h1>
+        
       </div>
 
       <div className="pt-[25px]">
@@ -48,7 +48,7 @@ export default function Home() {
           className="text-[15px] font-['Hakyo']">편지 쓰러 가기</button>
       </div>
 
-      <div className="grid grid-cols-4 gap-[5px] pt-[30px]">
+      <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-[5px] pt-[30px]">
         {messages.map((message, index) => (
           <MessageBox
             key={index}
